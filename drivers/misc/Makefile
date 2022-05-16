@@ -77,3 +77,5 @@ obj-$(CONFIG_PIEZO) += ti_drv2665.o
 obj-$(CONFIG_PN544) 		+= pn544.o
 obj-$(CONFIG_BU52031NVX) += pm8xxx-cradle.o
 obj-$(CONFIG_SLIMPORT_ANX7808)	+= slimport_anx7808/
+#CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+obj-$(CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING) += wifi_log.o

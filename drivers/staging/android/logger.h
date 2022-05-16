@@ -55,6 +55,9 @@ struct logger_entry {
 #define LOGGER_LOG_EVENTS	"log_events"	/* system/hardware events */
 #define LOGGER_LOG_SYSTEM	"log_system"	/* system/framework messages */
 #define LOGGER_LOG_MAIN		"log_main"	/* everything else */
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+#define LOGGER_LOG_WIFI	        "log_wifi"
+#endif
 
 #define LOGGER_ENTRY_MAX_PAYLOAD	4076
 

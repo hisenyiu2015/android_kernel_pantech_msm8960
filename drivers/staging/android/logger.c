@@ -29,6 +29,10 @@
 
 #include <asm/ioctls.h>
 
+#ifndef CONFIG_LOGCAT_SIZE
+#define CONFIG_LOGCAT_SIZE 256
+#endif
+
 /*
  * struct logger_log - represents a specific log, such as 'main' or 'radio'
  *
@@ -728,10 +732,13 @@ static struct logger_log VAR = { \
 	.size = SIZE, \
 };
 
-DEFINE_LOGGER_DEVICE(log_main, LOGGER_LOG_MAIN, 256*1024)
-DEFINE_LOGGER_DEVICE(log_events, LOGGER_LOG_EVENTS, 256*1024)
-DEFINE_LOGGER_DEVICE(log_radio, LOGGER_LOG_RADIO, 256*1024)
-DEFINE_LOGGER_DEVICE(log_system, LOGGER_LOG_SYSTEM, 256*1024)
+DEFINE_LOGGER_DEVICE(log_main, LOGGER_LOG_MAIN, CONFIG_LOGCAT_SIZE*1024)
+DEFINE_LOGGER_DEVICE(log_events, LOGGER_LOG_EVENTS, CONFIG_LOGCAT_SIZE*1024)
+DEFINE_LOGGER_DEVICE(log_radio, LOGGER_LOG_RADIO, CONFIG_LOGCAT_SIZE*1024)
+DEFINE_LOGGER_DEVICE(log_system, LOGGER_LOG_SYSTEM, CONFIG_LOGCAT_SIZE*1024)
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+DEFINE_LOGGER_DEVICE(log_wifi, LOGGER_LOG_WIFI, (CONFIG_LOGCAT_SIZE/2)*1024)
+#endif
 
 static struct logger_log *get_log_from_minor(int minor)
 {
@@ -743,6 +750,11 @@ static struct logger_log *get_log_from_minor(int minor)
 		return &log_radio;
 	if (log_system.misc.minor == minor)
 		return &log_system;
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+	if (log_wifi.misc.minor == minor)
+		return &log_wifi;
+#endif       
+		
 	return NULL;
 }
 
@@ -782,6 +794,11 @@ static int __init logger_init(void)
 	ret = init_log(&log_system);
 	if (unlikely(ret))
 		goto out;
+#ifdef CONFIG_PANTECH_PS_WIFI_COM_PREF_LOGGING
+	ret = init_log(&log_wifi);
+	if (unlikely(ret))
+		goto out;
+#endif
 
 out:
 	return ret;
