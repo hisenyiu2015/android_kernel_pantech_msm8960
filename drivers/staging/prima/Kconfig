@@ -1,7 +1,7 @@
 comment "Qualcomm Atheros Prima WLAN module"
 config PRIMA_WLAN
 	tristate "Qualcomm Atheros Prima WLAN module"
-	default n
+	default y
 	help
 	Add support for the Qualcomm Atheros Prima WLAN module
 
@@ -17,7 +17,7 @@ config PRIMA_WLAN_BTAMP
 
 config PRIMA_WLAN_LFR
 	bool "Enable the Prima WLAN Legacy Fast Roaming feature"
-	default n
+	default y
 
 config PRIMA_WLAN_OKC
 	bool "Enable the Prima WLAN Opportunistic Key Caching feature"
